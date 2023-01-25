@@ -28,20 +28,7 @@
         </div>
 
         <div class="row">
-            
-            <?php foreach($recipes as $key => $recipe): ?>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<?= _RECIPES_IMG_PATH_.$recipe['image']; ?>" class="card-img-top" alt="<?= $recipe['title']; ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $recipe['title']; ?></h5>
-                        <p class="card-text"><?= $recipe['content']; ?></p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-
+            <?php foreach($recipes as $key => $recipe) include("templates/recipe_partial.php"); ?>
         </div>
 
     </main>
