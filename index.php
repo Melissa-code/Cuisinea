@@ -1,14 +1,6 @@
 <?php
-
-    define('_RECIPES_IMG_PATH_', 'uploads/recipes/');
-
-    $recipes = [
-        ['title' => 'recette du gratin dauphinois', 'image' => '2-gratin-dauphinois.jpg','content' => 'Some quick example text gratin'],
-        ['title' => 'recette de la mousse au chocolat', 'image' => '1-chocolate-au-mousse.jpg', 'content' => "Some quick example text mousse"],
-        ['title' => 'recette de la salade niçoise', 'image' => '3-salade.jpg','content' => "Some quick example text salade" ]
-    ];
-
     require_once("templates/header.php");
+    require_once("lib/recipe.php");
 ?>
 
     <!-- Main -->
@@ -22,7 +14,7 @@
                 <h1 class="display-5 fw-bold lh-1 mb-3">Cuisinea - Recettes de cuisine</h1>
                 <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Nos recettes</button>
+                    <a href="recettes.php" class="btn btn-primary btn-lg px-4 me-md-2">Nos recettes</a>
                 </div>
             </div>
         </div>
