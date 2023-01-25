@@ -1,4 +1,10 @@
-<?php require_once ("lib/config.php"); ?>
+<?php
+    require_once ("lib/config.php");
+
+    //var_dump($_SERVER['SCRIPT_NAME']); // Cuisinea/recette.php
+    $currentPage = (basename($_SERVER['SCRIPT_NAME'])); // recette.php
+
+?>
 
 <!doctype html>
 <html lang="fr">
@@ -24,11 +30,11 @@
                 <img src="assets/images/logo-cuisinea-horizontal.jpg" alt="logo de Cuisinea" width="200">
             </a>
 
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="recettes.php" class="nav-link px-2 link-dark">Nos recettes</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+            <ul class="nav nav-pills col-md-auto mb-2 justify-content-center mb-md-0">
+                <li class="nav-item"><a href="recettes.php" class="nav-link px-2 <?php if($currentPage === "recettes.php") { echo "active";} ?>">Nos recettes</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 ">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2">About</a></li>
             </ul>
 
             <div class="col-md-3 text-end">
