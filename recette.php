@@ -2,74 +2,61 @@
     require_once("templates/header.php");
     require_once("lib/recipe.php");
     require_once("lib/tools.php");
+    require_once("lib/pdo.php");
 
-    $pdo = new PDO('mysql:dbname=Cuisinea;host=localhost;charset=utf8mb4', 'root', 'root');
+    //$pdo = new PDO('mysql:dbname=Cuisinea;host=localhost;charset=utf8mb4', 'root', 'root');
 
     $id = (int)$_GET['id'];
-    $query = $pdo->prepare("SELECT * FROM recipes WHERE id = :id");
-    $query->bindParam(":id", $id, PDO::PARAM_INT);
-    $query->execute();
-    $recipe = $query->fetch();
-    //var_dump($recipe);
+    $recipe = getRecipeById($pdo, $id);
 
     if($recipe) {
-
-        // To display an default image
-        if(!isset($recipe['image'])) {
-            $imagePath = _ASSETS_IMG_PATH_.'recipe_default.jpg';
-        } else {
-            $imagePath = _RECIPES_IMG_PATH_.$recipe['image'];
-        }
-        //echo $imagePath;
-
         $ingredients = linesToArray($recipe['ingredients']);
         $instructions = linesToArray($recipe['instructions']);
 ?>
+        <!-- Main -->
 
-<!-- Main -->
+        <main class="container">
 
-<main class="container">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="<?= getRecipeImage($recipe['image']);  ?>" class="d-block mx-lg-auto img-fluid" alt="<?= $recipe['title']; ?>" width="700" height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3"><?= ucfirst($recipe['title']); ?></h1>
+                    <p class="lead"><?= $recipe['description'] ?></p>
+                </div>
+            </div>
 
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-10 col-sm-8 col-lg-6">
-            <img src="<?= $imagePath ?>" class="d-block mx-lg-auto img-fluid" alt="<?= $recipe['title']; ?>" width="700" height="500" loading="lazy">
-        </div>
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3"><?= ucfirst($recipe['title']); ?></h1>
-            <p class="lead"><?= $recipe['description'] ?></p>
-        </div>
-    </div>
+            <!-- Ingredients -->
 
-    <!-- Ingredients -->
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <h2>Ingrédients</h2>
+                <ul class="list-group">
+                    <?php foreach($ingredients as $key => $ingredient) :?>
+                        <li class="list-group-item"><?= $ingredient ?></li>
+                    <?php endforeach ; ?>
+                </ul>
+            </div>
 
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <h2>Ingrédients</h2>
-        <ul class="list-group">
-            <?php foreach($ingredients as $key => $ingredient) :?>
-                <li class="list-group-item"><?= $ingredient ?></li>
-            <?php endforeach ; ?>
-        </ul>
-    </div>
+            <!-- Instructions -->
 
-    <!-- Instructions -->
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <h2>Instructions</h2>
+                <ol class="list-group">
+                    <?php foreach($instructions as $key => $instruction) :?>
+                        <li class="list-group-item"><?= $instruction ?></li>
+                    <?php endforeach; ?>
+                </ol>
+            </div>
 
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <h2>Instructions</h2>
-        <ol class="list-group">
-            <?php foreach($instructions as $key => $instruction) :?>
-                <li class="list-group-item"><?= $instruction ?></li>
-            <?php endforeach; ?>
-        </ol>
-    </div>
+        <!-- if the recipe doesn't exist  -->
 
-    <!-- if the recipe doesn't exist  -->
+        <?php  } else { ?>
+            <div class="row text-center">
+                <h1>Recette introuvable</h1>
+            </div>
+        <?php } ?>
 
-    <?php  } else { ?>
-        <div class="row text-center">
-            <h1>Recette introuvable</h1>
-        </div>
-    <?php } ?>
-
-</main>
+    </main>
 
 <?php require_once("templates/footer.php"); ?>
