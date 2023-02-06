@@ -2,11 +2,13 @@
     require_once("templates/header.php");
     require_once("lib/recipe.php");
 
-    $sql = "SELECT * from recipes ORDER BY id DESC";
-    $query = $pdo->prepare($sql);
-    $query->execute();
-    $recipes = $query->fetchAll();
-    //var_dump($recipes);
+    $recipes = getRecipes($pdo);
+
+//    $sql = "SELECT * from recipes ORDER BY id DESC";
+//    $query = $pdo->prepare($sql);
+//    $query->execute();
+//    $recipes = $query->fetchAll();
+//    //var_dump($recipes);
 
 ?>
 
