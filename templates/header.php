@@ -1,6 +1,7 @@
 <?php
     require_once ("lib/config.php");
     require_once ("lib/pdo.php");
+    require_once ("lib/session.php");
 
     //var_dump($_SERVER['SCRIPT_NAME']); // Cuisinea/recette.php
     $currentPage = (basename($_SERVER['SCRIPT_NAME'])); // recette.php
@@ -40,12 +41,18 @@
             </ul>
 
             <div class="col-md-3 text-end">
+                <?php if(!isset($_SESSION['user'])): ?>
                 <button type="button" class="btn btn-outline-primary me-2">
-                    <i class="fa-regular fa-user"></i>
+                    <a href="connexion.php"><i class="fa-regular fa-user"></i></a>
                 </button>
+                <button type="button" class="btn btn-outline-primary me-2">
+                    <a href="inscription.php"><i class="fa-solid fa-user-plus"></i></a>
+                </button>
+                <?php else: ?>
                 <button type="button" class="btn btn-primary">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <a href="deconnexion.php"><i class="fa-solid fa-right-from-bracket"></i></a>
                 </button>
+                <?php endif; ?>
             </div>
         </header>
     </div>

@@ -4,6 +4,10 @@ require_once("lib/recipe.php");
 require_once("lib/category.php");
 require_once("lib/tools.php");
 
+if(!isset($_SESSION['user'])) {
+    header('location: connexion.php');
+}
+
 $errors = [];
 $messages = [];
 $recipe = [
@@ -85,7 +89,7 @@ if(isset($_POST['saveRecipe'])) {
         <div class="col-md-10 col-lg-8">
 
             <form action="ajout_modification_recette.php" method="POST" enctype="multipart/form-data" class="border border-secondary rounded p-5">
-                <!-- Titre -->
+                <!-- Title -->
                 <div class="mb-3">
                     <label for="title" class="form-label">Titre :</label>
                     <input type="text" name="title" id="title" value="<?= $recipe['title'] ?>" class="form-control">
@@ -105,7 +109,7 @@ if(isset($_POST['saveRecipe'])) {
                     <label for="instructions" class="form-label">Instructions :</label>
                     <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control"><?= $recipe['instructions'] ?></textarea>
                 </div>
-                <!-- Catégorie -->
+                <!-- Catégory -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Catégorie :</label>
                     <select name="category_id" id="category" class="form-select">

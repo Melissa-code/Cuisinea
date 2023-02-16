@@ -3,9 +3,9 @@
 /**
  * Get all the categories
  * @param PDO $pdo
- * @return array
+ * @return array|null
  */
-function getCategories(PDO $pdo): array
+function getCategories(PDO $pdo): array|null
 {
     $sql = "SELECT * from categories";
     $query = $pdo->prepare($sql);
