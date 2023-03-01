@@ -5,6 +5,11 @@
             <h5 class="card-title"><?= $recipe['title']; ?></h5>
             <p class="card-text"><?= $recipe['description']; ?></p>
             <a href="recette.php?id=<?= $recipe['id']; ?>" class="btn btn-primary">Voir la recette</a>
+
+            <!--  Update & delete buttons  -->
+            <a href="ajout_modification_Recette.php?action=Modifier&id=<?= $recipe['id'] ?>" class="btn btn-warning text-dark"><i class="fa-solid fa-pen-to-square text-dark"></i></a>
+
+
         </div>
     </div>
 </div>

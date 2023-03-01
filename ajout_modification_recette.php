@@ -4,6 +4,20 @@ require_once("lib/recipe.php");
 require_once("lib/category.php");
 require_once("lib/tools.php");
 
+
+// TO DO : update a recipe (form)
+$action = $_GET['action']; // Ajouter ou Modifier
+
+if($action == "Modifier") {
+    // data in the URL
+    $id = $_GET['id'];
+
+    $recipeToUpdate = getRecipeById($pdo, $id);
+    //var_dump($recipeUpdated);
+}
+
+
+
 if(!isset($_SESSION['user'])) {
     header('location: connexion.php');
 }
@@ -48,6 +62,7 @@ if(isset($_POST['saveRecipe'])) {
             $errors[] = "La recette n'a pas été sauvegardée.";
         }
     }
+
     $recipe = [
         'title' => $_POST['title'],
         'description'=> $_POST['description'],
@@ -55,8 +70,6 @@ if(isset($_POST['saveRecipe'])) {
         'instructions' => $_POST['instructions'],
         'category_id'=> $_POST['category_id']
     ];
-
-
  }
 
 ?>
@@ -67,7 +80,7 @@ if(isset($_POST['saveRecipe'])) {
     <div class="row d-flex justify-content-center">
 
         <div class="col-12">
-            <h1 class="text-center">Ajouter une recette</h1>
+            <h1 class="text-center"><?= $action; ?>  une recette</h1>
         </div>
 
         <div class="col-6 pt-md-2">
@@ -88,26 +101,34 @@ if(isset($_POST['saveRecipe'])) {
     <div class="row d-flex justify-content-center align-items-center pt-1">
         <div class="col-md-10 col-lg-8">
 
-            <form action="ajout_modification_recette.php" method="POST" enctype="multipart/form-data" class="border border-secondary rounded p-5">
+            <form action="ajout_modif_validation.php?action=<?= $action ?>" method="POST" enctype="multipart/form-data" class="border border-secondary rounded p-5">
+                <!-- id hidden -->
+                <div class="mb-3">
+                    <input type="hidden"  id="id" name="id" value="<?php if($action == "Modifier"){ echo $recipeToUpdate['id']; } ?>">
+                </div>
                 <!-- Title -->
                 <div class="mb-3">
                     <label for="title" class="form-label">Titre :</label>
-                    <input type="text" name="title" id="title" value="<?= $recipe['title'] ?>" class="form-control">
+                    <input type="text" name="title" id="title" value="<?php if($action == "Modifier"){echo $recipeToUpdate['title']; } ?>" class="form-control">
+<!--                    <input type="text" name="title" id="title" value="--><?//= $recipe['title'] ?><!--" class="form-control">-->
                 </div>
                 <!-- Description -->
                 <div class="mb-3">
                     <label for="description" class="form-label">Description :</label>
-                    <textarea name="description" id="description"  cols="30" rows="2" class="form-control"><?= $recipe['description'] ?></textarea>
+                    <textarea name="description" id="description"  cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['description']; } ?> </textarea>
+<!--                    <textarea name="description" id="description"  cols="30" rows="2" class="form-control">--><?//= $recipe['description'] ?><!-- </textarea>-->
                 </div>
                 <!-- Ingredients -->
                 <div class="mb-3">
                     <label for="ingredients" class="form-label">Ingredients :</label>
-                    <textarea name="ingredients" id="ingredients" cols="30" rows="2" class="form-control"><?= $recipe['ingredients'] ?></textarea>
+                    <textarea name="ingredients" id="ingredients" cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['ingredients']; } ?></textarea>
+<!--                    <textarea name="ingredients" id="ingredients" cols="30" rows="2" class="form-control">--><?//= $recipe['ingredients'] ?><!--</textarea>-->
                 </div>
                 <!-- Instructions -->
                 <div class="mb-3">
                     <label for="instructions" class="form-label">Instructions :</label>
-                    <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control"><?= $recipe['instructions'] ?></textarea>
+                    <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['ingredients']; } ?></textarea>
+<!--                    <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control">--><?//= $recipe['instructions'] ?><!--</textarea>-->
                 </div>
                 <!-- Catégory -->
                 <div class="mb-3">
