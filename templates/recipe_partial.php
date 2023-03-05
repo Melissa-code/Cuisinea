@@ -8,8 +8,7 @@
 
             <!--  Update & delete buttons  -->
             <a href="ajout_modification_Recette.php?action=Modifier&id=<?= $recipe['id'] ?>" class="btn btn-warning text-dark"><i class="fa-solid fa-pen-to-square text-dark"></i></a>
-
-
+            <a href="suppression_recette.php?id=<?= $recipe['id'] ?>" class="btn btn-danger text-dark"><i class="fa-solid fa-trash"></i></a>
         </div>
     </div>
 </div>

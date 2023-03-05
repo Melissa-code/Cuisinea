@@ -45,7 +45,7 @@ if(isset($_POST['saveRecipe'])) {
     // Check if an image file is uploaded
     if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         $checkImage = getimagesize($_FILES['image']['tmp_name']); // return array|false
-        //var_dump($checkImage);
+
         if($checkImage !== false) {
             $fileName = uniqid().'-'.slugify($_FILES['image']['name']);
             //var_dump($fileName);
@@ -71,7 +71,6 @@ if(isset($_POST['saveRecipe'])) {
     } else if(!$errors) {
         // Create a new recipe in the database
         $result = saveRecipe($pdo, (int)$_POST['category_id'], $_POST['title'], $_POST['description'], $_POST['ingredients'], $_POST['instructions'], $fileName);
-        //var_dump($resultat);
 
         if($result) {
             $messages[] = "La recette a bien été sauvegardée.";

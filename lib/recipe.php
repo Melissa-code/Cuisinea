@@ -50,7 +50,7 @@ function getRecipes(PDO $pdo, int $limit = null) {
 }
 
 /**
- * Create a new recipe
+ * Create a new recipe in the database
  * @param PDO $pdo
  * @param int $category_id
  * @param string $title
@@ -73,7 +73,7 @@ function saveRecipe(PDO $pdo, int $category_id, string $title, string $descripti
 }
 
 /**
- * Update a recipe
+ * Update a recipe in the database
  * @param PDO $pdo
  * @param int $id
  * @param int $category_id
@@ -93,6 +93,19 @@ function updateRecipe(PDO $pdo, int $id, int $category_id, string $title, string
     $query->bindParam(":ingredients", $ingredients, PDO::PARAM_STR);
     $query->bindParam(":instructions", $instructions, PDO::PARAM_STR);
     $query->bindParam(":image", $image, PDO::PARAM_STR);
+    $query->bindParam(":id", $id, PDO::PARAM_INT);
+    return $query->execute();
+}
+
+/**
+ * Delete a recipe in the database
+ * @param PDO $pdo
+ * @param int $id
+ * @return mixed
+ */
+function deleteRecipe(PDO $pdo, int $id){
+    $sql = "DELETE FROM recipes WHERE id = :id";
+    $query = $pdo->prepare($sql);
     $query->bindParam(":id", $id, PDO::PARAM_INT);
     return $query->execute();
 }
