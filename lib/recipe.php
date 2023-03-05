@@ -51,7 +51,6 @@ function getRecipes(PDO $pdo, int $limit = null) {
 
 /**
  * Create a new recipe
- *
  * @param PDO $pdo
  * @param int $category_id
  * @param string $title
@@ -73,3 +72,36 @@ function saveRecipe(PDO $pdo, int $category_id, string $title, string $descripti
     return $query->execute();
 }
 
+/**
+ * Update a recipe
+ * @param PDO $pdo
+ * @param int $id
+ * @param int $category_id
+ * @param string $title
+ * @param string $description
+ * @param string $ingredients
+ * @param string $instructions
+ * @param string|null $image
+ * @return bool
+ */
+function updateRecipe(PDO $pdo, int $id, int $category_id, string $title, string $description, string $ingredients, string $instructions, string|null $image) {
+
+//    var_dump($id);
+//    var_dump($category_id);
+//    var_dump($title);
+//    var_dump($description);
+//    var_dump($ingredients);
+//    var_dump($instructions);
+//    var_dump($image);
+
+    $sql = "UPDATE recipes SET category_id = :category_id, title = :title, description = :description, ingredients = :ingredients, instructions = :instructions, image = :image WHERE id = :id";
+    $query = $pdo->prepare($sql);
+    $query->bindParam(":category_id", $category_id, PDO::PARAM_INT);
+    $query->bindParam(":title", $title, PDO::PARAM_STR);
+    $query->bindParam(":description", $description, PDO::PARAM_STR);
+    $query->bindParam(":ingredients", $ingredients, PDO::PARAM_STR);
+    $query->bindParam(":instructions", $instructions, PDO::PARAM_STR);
+    $query->bindParam(":image", $image, PDO::PARAM_STR);
+    $query->bindParam(":id", $id, PDO::PARAM_INT);
+    return $query->execute();
+}

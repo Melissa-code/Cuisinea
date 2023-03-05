@@ -7,5 +7,5 @@ define('_HOME_RECIPES_LIMIT_', 6);
 $mainMenu = [
     "index.php" => "Accueil" ,
     "recettes.php" => "Nos recettes",
-    "ajout_modification_recette.php" => "Ajout/Modif recette",
+    "ajout_modification_recette.php?action=Ajouter" => "Ajouter une recette",
 ];
