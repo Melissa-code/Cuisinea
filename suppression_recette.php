@@ -11,21 +11,8 @@ if(!isset($_SESSION['user'])) {
 
 $id = $_GET['id'];
 $recipeToUpdate = getRecipeById($pdo, (int)$id);
-
 $errors = [];
 $messages = [];
-
-$recipe = [
-    'title' => '',
-    'description'=> '',
-    'ingredients' => '',
-    'instructions' => '',
-    'category_id'=> ''
-];
-
-// Get all the categories
-$categories = getCategories($pdo);
-
 $result = deleteRecipe($pdo, $id);
 
 if($result) {
@@ -33,16 +20,12 @@ if($result) {
 } else {
     $errors[] = "La recette n'a pas été supprimée.";
 }
-
-
-
 ?>
 
 <!-- Main -->
 
 <main class="container h-100">
     <div class="row d-flex justify-content-center">
-
 
         <!-- Alert : success or error message -->
         <div class="col-md-6 pt-md-2">
@@ -57,6 +40,11 @@ if($result) {
                     <?= $error; ?>
                 </div>
             <?php endforeach; ?>
+        </div>
+
+        <!-- Come back to the list of the recipes button -->
+        <div class="mt-4 w-100 text-center">
+            <button class="btn btn-secondary me-md-2"><a class="text-light text-decoration-none" href="recettes.php">Revenir à la liste des recettes</a></button>
         </div>
 
     </div>

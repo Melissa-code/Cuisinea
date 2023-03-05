@@ -48,7 +48,21 @@
         </footer>
     </div>
 
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+
+    <!-- Script JS -->
+    <script type="text/javascript">
+        $("a[data-getId]").click(function() {
+            // Get the link with the id of the recipe
+            let link = $(this).attr("data-getId");
+            // Write the link with the id in the button
+            $("#deleteBtn").attr("href", link);
+        });
+       // console.log(link);
+    </script>
 </body>
 </html>

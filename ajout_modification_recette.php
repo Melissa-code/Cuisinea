@@ -20,10 +20,8 @@ if($action == "Modifier") {
     $recipeToUpdate = getRecipeById($pdo, (int)$id);
 }
 
-
 $errors = [];
 $messages = [];
-
 $recipe = [
      'title' => '',
      'description'=> '',
@@ -34,7 +32,6 @@ $recipe = [
 
 // Get all the categories
 $categories = getCategories($pdo);
-
 
 // Check if the form is full
 if(isset($_POST['saveRecipe'])) {
@@ -50,7 +47,7 @@ if(isset($_POST['saveRecipe'])) {
             $fileName = uniqid().'-'.slugify($_FILES['image']['name']);
             //var_dump($fileName);
 
-            // move the image file to uploads/recipes
+            // Move the image file to uploads/recipes
             move_uploaded_file($_FILES['image']['tmp_name'], _RECIPES_IMG_PATH_.$fileName);
         } else {
             $errors[] = "Le fichier doit être une image.";
