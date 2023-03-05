@@ -85,15 +85,6 @@ function saveRecipe(PDO $pdo, int $category_id, string $title, string $descripti
  * @return bool
  */
 function updateRecipe(PDO $pdo, int $id, int $category_id, string $title, string $description, string $ingredients, string $instructions, string|null $image) {
-
-//    var_dump($id);
-//    var_dump($category_id);
-//    var_dump($title);
-//    var_dump($description);
-//    var_dump($ingredients);
-//    var_dump($instructions);
-//    var_dump($image);
-
     $sql = "UPDATE recipes SET category_id = :category_id, title = :title, description = :description, ingredients = :ingredients, instructions = :instructions, image = :image WHERE id = :id";
     $query = $pdo->prepare($sql);
     $query->bindParam(":category_id", $category_id, PDO::PARAM_INT);

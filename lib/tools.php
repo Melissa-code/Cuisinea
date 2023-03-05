@@ -10,6 +10,7 @@ function linesToArray(string $string): ?array {
 }
 
 /**
+ *
  * @param $text
  * @param string $divider
  * @return string

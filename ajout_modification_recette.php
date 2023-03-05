@@ -57,18 +57,6 @@ if(isset($_POST['saveRecipe'])) {
         }
    }
 
-//    if(!$errors) {
-//        // Create a new recipe in the database
-//        $result = saveRecipe($pdo, (int)$_POST['category_id'], $_POST['title'], $_POST['description'], $_POST['ingredients'], $_POST['instructions'], $fileName);
-//        //var_dump($resultat);
-//
-//        if($result) {
-//            $messages[] = "La recette a bien été sauvegardée.";
-//        } else {
-//            $errors[] = "La recette n'a pas été sauvegardée.";
-//        }
-//    }
-
     // Check if the form is correct & update or create the recipe
     if(!$errors && $action == "Modifier") {
         // Update a recipe in the database
@@ -79,7 +67,6 @@ if(isset($_POST['saveRecipe'])) {
         } else {
             $errors[] = "La recette n'a pas été modifiée.";
         }
-        //header('location: recettes.php');
 
     } else if(!$errors) {
         // Create a new recipe in the database
@@ -118,11 +105,13 @@ if(isset($_POST['saveRecipe'])) {
 <main class="container h-100">
     <div class="row d-flex justify-content-center">
 
-        <div class="col-12">
+        <!-- Title : Update or Create -->
+        <div class="col-12 d-flex justify-content-center align-items-center">
             <h1 class="text-center"><?= $action; ?>  une recette</h1>
         </div>
 
-        <div class="col-6 pt-md-2">
+        <!-- Alert : success or error message -->
+        <div class="col-md-6 pt-md-2">
             <?php foreach($messages as $message) : ?>
             <div class="alert alert-success">
                 <?= $message; ?>
@@ -137,6 +126,7 @@ if(isset($_POST['saveRecipe'])) {
         </div>
     </div>
 
+    <!-- Form : update or create form -->
     <div class="row d-flex justify-content-center align-items-center pt-1">
         <div class="col-md-10 col-lg-8">
 
@@ -149,31 +139,26 @@ if(isset($_POST['saveRecipe'])) {
                 <div class="mb-3">
                     <label for="title" class="form-label">Titre :</label>
                     <input type="text" name="title" id="title" value="<?php if($action == "Modifier"){echo $recipeToUpdate['title']; } else { echo $recipe['title']; }; ?>" class="form-control">
-<!--                    <input type="text" name="title" id="title" value="--><?//= $recipe['title'] ?><!--" class="form-control">-->
                 </div>
                 <!-- Description -->
                 <div class="mb-3">
                     <label for="description" class="form-label">Description :</label>
                     <textarea name="description" id="description"  cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['description']; } else { echo $recipe['description']; };  ?> </textarea>
-<!--                    <textarea name="description" id="description"  cols="30" rows="2" class="form-control">--><?//= $recipe['description'] ?><!-- </textarea>-->
                 </div>
                 <!-- Ingredients -->
                 <div class="mb-3">
                     <label for="ingredients" class="form-label">Ingredients :</label>
                     <textarea name="ingredients" id="ingredients" cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['ingredients']; } else { echo $recipe['ingredients']; } ?></textarea>
-<!--                    <textarea name="ingredients" id="ingredients" cols="30" rows="2" class="form-control">--><?//= $recipe['ingredients'] ?><!--</textarea>-->
                 </div>
                 <!-- Instructions -->
                 <div class="mb-3">
                     <label for="instructions" class="form-label">Instructions :</label>
                     <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['instructions']; } else { echo $recipe['instructions']; } ?></textarea>
-<!--                    <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control">--><?//= $recipe['instructions'] ?><!--</textarea>-->
                 </div>
                 <!-- Catégory -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Catégorie :</label>
                     <select name="category_id" id="category" class="form-select">
-<!--                        <option value="">-- Sélectionner la catégorie -- </option>-->
                         <?php foreach($categories as $category) :?>
                             <option value="<?= $category['id']; ?>">
                                 <?php if($recipe['category_id'] === (int)$category['id']) echo 'selected = "selected"';?>
@@ -190,7 +175,8 @@ if(isset($_POST['saveRecipe'])) {
 
                 <!-- Submit button -->
                 <div class="mt-4 w-100 text-center">
-                    <input type="submit" name="saveRecipe" value="Enregistrer" class="btn btn-primary">
+                    <button class="btn btn-secondary me-md-2"><a class="text-light text-decoration-none" href="recettes.php">Revenir</a></button>
+                    <input type="submit" name="saveRecipe" value="Enregistrer" class="btn btn-primary ml-md-2">
                 </div>
             </form>
 

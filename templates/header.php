@@ -5,7 +5,6 @@
 
     //var_dump($_SERVER['SCRIPT_NAME']); // Cuisinea/recette.php
     $currentPage = (basename($_SERVER['SCRIPT_NAME'])); // recette.php
-
 ?>
 
 <!doctype html>

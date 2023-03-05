@@ -1,7 +1,6 @@
 <?php
     require_once("templates/header.php");
     require_once("lib/recipe.php");
-    //require_once("ajout_modification_recette.php");
 
     $recipes = getRecipes($pdo);
 ?>
