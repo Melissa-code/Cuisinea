@@ -13,7 +13,11 @@ $id = $_GET['id'];
 $recipeToUpdate = getRecipeById($pdo, (int)$id);
 $errors = [];
 $messages = [];
+$imageToDelete = $recipeToUpdate['image'];
+// Delete the image file in uploads/recipes/imagefile
+unlink(_RECIPES_IMG_PATH_.$imageToDelete);
 $result = deleteRecipe($pdo, $id);
+
 
 if($result) {
     $messages[] = "La recette a bien été supprimée.";
