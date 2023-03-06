@@ -18,6 +18,8 @@ if($action == "Modifier") {
 
     // Get the recipe to update
     $recipeToUpdate = getRecipeById($pdo, (int)$id);
+    $oldImage = $recipeToUpdate['image'];
+    //var_dump($oldImage);
 }
 
 $errors = [];
@@ -36,27 +38,41 @@ $categories = getCategories($pdo);
 // Check if the form is full
 if(isset($_POST['saveRecipe'])) {
 
-    $fileName = null;
-    //print_r($_FILES['image']['tmp_name']);
+    if($oldImage) {
+        $fileName = $oldImage;
+        //var_dump($fileName);
+    } else {
+        $fileName = null;
+        //var_dump($fileName);
+        //print_r($_FILES['image']['tmp_name']);
+    }
 
     // Check if an image file is uploaded
     if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         $checkImage = getimagesize($_FILES['image']['tmp_name']); // return array|false
 
         if($checkImage !== false) {
+            // Add a unique id & standardize the name of the file
             $fileName = uniqid().'-'.slugify($_FILES['image']['name']);
             //var_dump($fileName);
 
             // Move the image file to uploads/recipes
             move_uploaded_file($_FILES['image']['tmp_name'], _RECIPES_IMG_PATH_.$fileName);
+
+            // Delete the old image file
+            if($oldImage) {
+                unlink(_RECIPES_IMG_PATH_.$oldImage);
+            }
         } else {
             $errors[] = "Le fichier doit être une image.";
         }
-   }
+
+    }
 
     // Check if the form is correct & update or create the recipe
     if(!$errors && $action == "Modifier") {
         // Update a recipe in the database
+
         $result = updateRecipe($pdo, (int)$_POST['id'], (int)$_POST['category_id'], $_POST['title'], $_POST['description'], $_POST['ingredients'], $_POST['instructions'], $fileName);
 
         if($result) {
