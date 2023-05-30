@@ -4,7 +4,7 @@ require_once("lib/recipe.php");
 require_once("lib/category.php");
 require_once("lib/tools.php");
 
-// Redirect the user to the login page id he's not logged-in
+// Redirect the user to the login page if he's not logged-in
 if(!isset($_SESSION['user'])) {
     header('location: connexion.php');
 }
@@ -19,7 +19,6 @@ if($action == "Modifier") {
     // Get the recipe to update
     $recipeToUpdate = getRecipeById($pdo, (int)$id);
     $oldImage = $recipeToUpdate['image'];
-    //var_dump($oldImage);
 }
 
 $errors = [];
@@ -38,13 +37,16 @@ $categories = getCategories($pdo);
 // Check if the form is full
 if(isset($_POST['saveRecipe'])) {
 
-    if($oldImage) {
-        $fileName = $oldImage;
-        //var_dump($fileName);
+    if($action == "Modifier") {
+        $oldImage = $recipeToUpdate['image'];
+        if (file_exists($oldImage)) {
+            $fileName = $oldImage;
+        } else {
+            $fileName = null;
+            //print_r($_FILES['image']['tmp_name']);
+        }
     } else {
         $fileName = null;
-        //var_dump($fileName);
-        //print_r($_FILES['image']['tmp_name']);
     }
 
     // Check if an image file is uploaded
@@ -54,14 +56,17 @@ if(isset($_POST['saveRecipe'])) {
         if($checkImage !== false) {
             // Add a unique id & standardize the name of the file
             $fileName = uniqid().'-'.slugify($_FILES['image']['name']);
-            //var_dump($fileName);
 
             // Move the image file to uploads/recipes
             move_uploaded_file($_FILES['image']['tmp_name'], _RECIPES_IMG_PATH_.$fileName);
 
-            // Delete the old image file
-            if($oldImage) {
-                unlink(_RECIPES_IMG_PATH_.$oldImage);
+            if($action == "Modifier") {
+                $oldImage = $recipeToUpdate['image'];
+
+                // Delete the previous image file
+                if (file_exists($oldImage)) {
+                    unlink(_RECIPES_IMG_PATH_ . $oldImage);
+                }
             }
         } else {
             $errors[] = "Le fichier doit être une image.";
@@ -106,7 +111,7 @@ if(isset($_POST['saveRecipe'])) {
         'description'=> $_POST['description'],
         'ingredients' => $_POST['ingredients'],
         'instructions' => $_POST['instructions'],
-        'category_id'=> $recipe['category_id']
+        'category_id'=> $_POST['category_id']
     ];
  }
 
@@ -167,16 +172,26 @@ if(isset($_POST['saveRecipe'])) {
                     <label for="instructions" class="form-label">Instructions :</label>
                     <textarea name="instructions" id="instructions" cols="30" rows="2" class="form-control"><?php if($action == "Modifier"){ echo $recipeToUpdate['instructions']; } else { echo $recipe['instructions']; } ?></textarea>
                 </div>
-                <!-- Catégory -->
+                <!-- Category -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Catégorie :</label>
                     <select name="category_id" id="category" class="form-select">
+
                         <?php foreach($categories as $category) :?>
+
+                        <?php if($action != "Modifier") : ?>
                             <option value="<?= $category['id']; ?>">
-                                <?php if($recipe['category_id'] === (int)$category['id']) echo 'selected = "selected"';?>
+                                <?php if($recipe['category_id'] === (int)$category['id']) echo 'selected = "selected"'; ?>
                                 <?= $category['name']; ?>
                             </option>
+                        <?php else : ?>
+                            <option value="<?= $recipeToUpdate['category_id']; ?>">
+                                <?php if($recipeToUpdate['category_id'] === (int)$category['id']) echo 'selected = "selected"'; ?>
+                                <?= $category['name']; ?>
+                            </option>
+                            <?php endif ?>
                         <?php endforeach; ?>
+
                     </select>
                 </div>
                 <!-- Image -->

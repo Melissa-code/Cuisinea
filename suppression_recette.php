@@ -14,10 +14,14 @@ $recipeToUpdate = getRecipeById($pdo, (int)$id);
 $errors = [];
 $messages = [];
 $imageToDelete = $recipeToUpdate['image'];
-// Delete the image file in uploads/recipes/imagefile
-unlink(_RECIPES_IMG_PATH_.$imageToDelete);
-$result = deleteRecipe($pdo, $id);
 
+// Delete the image file in uploads/recipes/imagefile
+if($imageToDelete) {
+    unlink(_RECIPES_IMG_PATH_.$imageToDelete);
+} else {
+    $errors[] = "La photo par défaut de la recette ne peut pas être supprimée.";
+}
+$result = deleteRecipe($pdo, $id);
 
 if($result) {
     $messages[] = "La recette a bien été supprimée.";
